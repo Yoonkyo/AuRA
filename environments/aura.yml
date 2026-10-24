@@ -1,0 +1,132 @@
+# aura.yml -- curated minimal conda environment `AuRA` for the AuRA v1 data-collection pipeline
+# (3-OAK capture + alignment, ChArUco calibration, raw -> PhysTwin-style conversion,
+#  Grounded-SAM-2 static target segmentation, observation point-cloud fusion/filtering,
+#  PyRoki table-collision + IK/FK grasp filtering).
+# Every pinned version is the exact version of the authors' reference environment (captured 2026-09-17).
+# The AnyGrasp inference step uses the separate `anygrasp.yml` (env `Anygrasp`); the real-robot
+# scripts use the uv project in environments/robot/ (CPython 3.11/3.12 + PREEMPT_RT kernel).
+# environments/README.md lists which environment runs which stage.
+#
+#   conda env create -f environments/aura.yml       # needs gcc (build-essential): pyliblzfse has no Linux wheel and is compiled from its sdist
+#   conda activate AuRA
+#
+# POST-INSTALL STEPS (run from the repository root inside the activated env; they cannot be
+# expressed in a conda yml because they need --no-deps / editable builds). Load the config first
+# (cp config/aura.env.example config/aura.env once):
+#
+#   set -a; source config/aura.env; set +a
+#
+#   # 1. supervision is imported by groundingdino.util.inference. --no-deps keeps pip from installing
+#   #    `opencv-python`, which would silently overwrite the cv2 of opencv-contrib-python==4.7.0.72
+#   #    (the ChArUco calibration scripts need the legacy aruco API that only that wheel provides).
+#   pip install --no-deps supervision==0.28.0
+#
+#   # 2. PyRoki (pure python). --no-deps because pyroki declares an UNPINNED `jaxls @ git+...`
+#   #    that conflicts with the pinned jaxls below.
+#   pip install --no-deps "pyroki @ git+https://github.com/chungmin99/pyroki.git@388e43e1fc0d0ee382968d3dd72970fd62a0450c"
+#
+#   # 3. Grounded-SAM-2 (sam2 + groundingdino) from a local clone at $AURA_GSAM_REPO (config/aura.env,
+#   #    default third_party/Grounded-SAM-2, git-ignored), editable. A bare git URL does NOT
+#   #    work: this fork imports `grounding_dino.groundingdino.*` relative to the clone root, and the
+#   #    CUDA extension groundingdino._C must be built inside the clone.
+#   git clone https://github.com/IDEA-Research/Grounded-SAM-2.git "$AURA_GSAM_REPO"
+#   git -C "$AURA_GSAM_REPO" checkout b7a9c29f196edff0eb54dbe14588d7ae5e3dde28
+#   export CUDA_HOME="${CUDA_HOME:-/usr/local/cuda}"      # a CUDA 12.8 toolkit that has nvcc
+#   export PATH="$CUDA_HOME/bin:$PATH"
+#   # export TORCH_CUDA_ARCH_LIST="12.0"                   # only if no GPU is visible at build time (RTX 50xx = sm_120)
+#   SAM2_BUILD_CUDA=0 pip install --no-build-isolation --no-deps -e "$AURA_GSAM_REPO"
+#   pip install --no-build-isolation --no-deps -e "$AURA_GSAM_REPO/grounding_dino"
+#
+#   # 4. No PYTHONPATH export is needed for the `grounding_dino` namespace that
+#   #    groundingdino.util.inference imports: aura/perception/aura_segment_static_target_image.py
+#   #    puts $AURA_GSAM_REPO at the front of sys.path itself. AURA_GSAM_REPO in config/aura.env
+#   #    must therefore point at the clone from step 3 (the default does).
+#
+#   # 5. Weights: see environments/README.md (sam2.1_hiera_large.pt, groundingdino_swint_ogc.pth,
+#   #    GroundingDINO_SwinT_OGC.py -> $AURA_GSAM_CHECKPOINTS). bert-base-uncased (HF hub) and
+#   #    franka_description (GitHub) are fetched automatically on first use -- network is needed once.
+#
+#   # Sanity check (no hardware, no GPU work; the sys.path insert mirrors the segmentation script):
+#   python -c "import os, sys; sys.path.insert(0, os.environ['AURA_GSAM_REPO']); import cv2, depthai, open3d, torch, jax, pyroki; from groundingdino.util.inference import load_model; from sam2.build_sam import build_sam2; assert cv2.__version__ == '4.7.0' and hasattr(cv2.aruco, 'interpolateCornersCharuco'); print('AuRA env OK', torch.__version__, depthai.__version__)"
+name: AuRA
+channels:
+  - defaults
+dependencies:
+  - python=3.10.20              # exact reference version
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu128
+      # --- core numerics / imaging (imported directly by the v1 scripts) ---
+      - numpy==1.26.4
+      - scipy==1.15.3
+      - opencv-contrib-python==4.7.0.72   # the ONLY cv2 provider: has both the legacy ChArUco API (interpolateCornersCharuco, calibrateCameraCharucoExtended, detectMarkers) and the new CharucoDetector API
+      - pillow==11.3.0
+      - matplotlib==3.10.9
+      - open3d==0.19.0
+      - pandas==2.3.3                     # open3d dependency, pinned for reproducibility
+      - scikit-learn==1.7.2               # open3d dependency, pinned for reproducibility
+      - depthai==3.6.1                    # DepthAI v3 API (dai.node.Camera / Sync / ImageAlign / StereoDepth); manylinux_2_28 wheel
+      # --- GPU stack (segmentation) ---
+      - torch==2.11.0+cu128
+      - torchvision==0.26.0+cu128
+      - triton==3.6.0
+      # --- Grounded-SAM-2 runtime deps (sam2 + groundingdino are installed editable, see header) ---
+      - transformers==4.37.2              # pinned: GroundingDINO breaks on newer transformers
+      - tokenizers==0.15.2
+      - huggingface-hub==0.36.2
+      - safetensors==0.8.0rc1             # exact reference version (a pre-release, kept as captured)
+      - timm==1.0.27
+      - addict==2.4.0
+      - yapf==0.43.0
+      - pycocotools==2.0.11
+      - hydra-core==1.3.2
+      - omegaconf==2.3.0
+      - antlr4-python3-runtime==4.9.3
+      - iopath==0.1.10
+      - portalocker==3.2.0
+      - tqdm==4.68.1
+      - regex==2026.5.9
+      - filelock==3.29.0
+      - fsspec==2026.4.0
+      - requests==2.34.2
+      - pyyaml==6.0.3
+      - packaging==26.2
+      # supervision==0.28.0 runtime deps (supervision itself is installed --no-deps, see header)
+      - defusedxml==0.7.1
+      - pydeprecate==0.7.0
+      # --- PyRoki / JAX stack (pyroki itself is installed --no-deps, see header) ---
+      - jax==0.6.2
+      - jaxlib==0.6.2                     # CPU jaxlib, exactly as in the reference env (no jax CUDA plugin)
+      - jaxlie==1.5.0
+      - jax-dataclasses==1.6.3
+      - jaxls @ git+https://github.com/brentyi/jaxls.git@50a58be88c5ef74532f09e3f55268b4f02c490e3
+      - jaxtyping==0.3.7
+      - wadler-lindig==0.1.7
+      - tyro==1.0.15
+      - loguru==0.7.3
+      - rich==14.3.4
+      - termcolor==3.3.0
+      - typing-extensions==4.15.0
+      - trimesh==4.12.2
+      - viser==1.0.30
+      - pyliblzfse==0.4.1                 # built from source: needs gcc
+      - msgspec==0.21.1
+      - websockets==16.1.1
+      - zstandard==0.25.0
+      - imageio==2.37.3
+      - yourdfpy==0.0.60
+      - lxml==6.1.1
+      - six==1.17.0
+      - robot-descriptions==3.1.0         # load_robot_description("fr3_description"); clones frankarobotics/franka_description @ 72baf5bf4e88eaec27f0eb61be1b20a001abf2ab into ~/.cache/robot_descriptions on first use
+      - gitpython==3.1.59
+      # fr3_description ships xacro only -> robot_descriptions needs xacrodoc (optional dep it imports dynamically)
+      - xacrodoc==2.0.1
+      - xacro==2.1.1
+      - rospkg==1.6.1
+      - catkin-pkg==1.1.0
+      - distro==1.9.0
+      - docutils==0.23
+      # --- build helpers for the editable Grounded-SAM-2 installs (--no-build-isolation) ---
+      - setuptools==70.2.0
+      - wheel==0.47.0
+      - ninja==1.13.0

@@ -1,0 +1,323 @@
+{
+  "trajectories": [
+    {
+      "sample_id": "sample_01",
+      "contact_type": "both_tips_touching",
+      "observed_contacts": [
+        "right_outer",
+        "left_outer"
+      ],
+      "ee_position_in_base_m": [
+        0.4334,
+        0.0987,
+        -0.0373
+      ],
+      "ee_orientation_rpy_rad": [
+        -3.138,
+        0.0071,
+        -0.1354
+      ],
+      "joint_angles_rad": [
+        0.20968,
+        0.59029,
+        0.010721,
+        -2.4706,
+        -0.001526,
+        3.0554,
+        1.1409
+      ],
+      "plane_residuals_m": {
+        "right_outer": -0.000265848527,
+        "left_outer": 0.000363462207
+      },
+      "plane_residuals_mm": {
+        "right_outer": -0.2658485266,
+        "left_outer": 0.363462206949
+      }
+    },
+    {
+      "sample_id": "sample_02",
+      "contact_type": "both_tips_touching",
+      "observed_contacts": [
+        "right_outer",
+        "left_outer"
+      ],
+      "ee_position_in_base_m": [
+        0.6444,
+        -0.1605,
+        -0.0353
+      ],
+      "ee_orientation_rpy_rad": [
+        3.1332,
+        -0.3076,
+        0.0019
+      ],
+      "joint_angles_rad": [
+        -0.2045,
+        0.9001,
+        0.0039,
+        -1.8391,
+        0.4693,
+        3.0304,
+        0.1231
+      ],
+      "plane_residuals_m": {
+        "right_outer": -0.00061685122,
+        "left_outer": 0.000944203319
+      },
+      "plane_residuals_mm": {
+        "right_outer": -0.616851219947,
+        "left_outer": 0.944203319372
+      }
+    },
+    {
+      "sample_id": "sample_03",
+      "contact_type": "both_tips_touching",
+      "observed_contacts": [
+        "right_outer",
+        "left_outer"
+      ],
+      "ee_position_in_base_m": [
+        0.5509,
+        0.1196,
+        -0.0344
+      ],
+      "ee_orientation_rpy_rad": [
+        3.1398,
+        0.3375,
+        -0.0006
+      ],
+      "joint_angles_rad": [
+        0.1734,
+        0.8258,
+        0.0261,
+        -1.8014,
+        0.0576,
+        2.2945,
+        0.9345
+      ],
+      "plane_residuals_m": {
+        "right_outer": -0.00050099965,
+        "left_outer": 0.000401616742
+      },
+      "plane_residuals_mm": {
+        "right_outer": -0.500999649976,
+        "left_outer": 0.401616741607
+      }
+    },
+    {
+      "sample_id": "sample_04",
+      "contact_type": "right_tip_touching",
+      "observed_contacts": [
+        "right_outer"
+      ],
+      "ee_position_in_base_m": [
+        0.5951,
+        -0.0465,
+        -0.0226
+      ],
+      "ee_orientation_rpy_rad": [
+        -2.8812,
+        -0.0627,
+        0.0011
+      ],
+      "joint_angles_rad": [
+        -0.081,
+        0.7658,
+        -0.0135,
+        -1.9416,
+        0.6303,
+        2.6639,
+        0.1159
+      ],
+      "plane_residuals_m": {
+        "right_outer": 0.00056615508
+      },
+      "plane_residuals_mm": {
+        "right_outer": 0.566155080281
+      }
+    },
+    {
+      "sample_id": "sample_05",
+      "contact_type": "right_tip_touching",
+      "observed_contacts": [
+        "right_outer"
+      ],
+      "ee_position_in_base_m": [
+        0.5977,
+        0.1314,
+        -0.0284
+      ],
+      "ee_orientation_rpy_rad": [
+        -3.03,
+        -0.2767,
+        -0.0085
+      ],
+      "joint_angles_rad": [
+        0.263,
+        0.8013,
+        0.0287,
+        -2.0313,
+        0.6053,
+        3.1259,
+        0.4543
+      ],
+      "plane_residuals_m": {
+        "right_outer": -0.0003680237
+      },
+      "plane_residuals_mm": {
+        "right_outer": -0.368023700489
+      }
+    },
+    {
+      "sample_id": "sample_06",
+      "contact_type": "right_tip_touching",
+      "observed_contacts": [
+        "right_outer"
+      ],
+      "ee_position_in_base_m": [
+        0.555,
+        -0.009,
+        -0.0109
+      ],
+      "ee_orientation_rpy_rad": [
+        -2.5947,
+        0.3999,
+        0.1859
+      ],
+      "joint_angles_rad": [
+        -0.1376,
+        0.87033,
+        -0.0010988,
+        -1.666,
+        0.43112,
+        1.9531,
+        0.29113
+      ],
+      "plane_residuals_m": {
+        "right_outer": 0.000192537188
+      },
+      "plane_residuals_mm": {
+        "right_outer": 0.192537188221
+      }
+    },
+    {
+      "sample_id": "sample_07",
+      "contact_type": "left_tip_touching",
+      "observed_contacts": [
+        "left_outer"
+      ],
+      "ee_position_in_base_m": [
+        0.5602,
+        0.0315,
+        -0.0184
+      ],
+      "ee_orientation_rpy_rad": [
+        2.819,
+        0.2549,
+        -0.0539
+      ],
+      "joint_angles_rad": [
+        0.1443,
+        0.7794,
+        -0.0244,
+        -1.8493,
+        -0.3436,
+        2.2917,
+        1.1936
+      ],
+      "plane_residuals_m": {
+        "left_outer": -0.000271576788
+      },
+      "plane_residuals_mm": {
+        "left_outer": -0.27157678794
+      }
+    },
+    {
+      "sample_id": "sample_08",
+      "contact_type": "left_tip_touching",
+      "observed_contacts": [
+        "left_outer"
+      ],
+      "ee_position_in_base_m": [
+        0.6458,
+        -0.0889,
+        -0.0182
+      ],
+      "ee_orientation_rpy_rad": [
+        2.8319,
+        -0.1816,
+        0.0614
+      ],
+      "joint_angles_rad": [
+        -0.0818,
+        0.8373,
+        -0.0678,
+        -1.8335,
+        -0.7623,
+        2.8178,
+        1.3407
+      ],
+      "plane_residuals_m": {
+        "left_outer": -0.000336676882
+      },
+      "plane_residuals_mm": {
+        "left_outer": -0.336676882345
+      }
+    },
+    {
+      "sample_id": "sample_09",
+      "contact_type": "left_tip_touching",
+      "observed_contacts": [
+        "left_outer"
+      ],
+      "ee_position_in_base_m": [
+        0.5307,
+        -0.0216,
+        -0.0155
+      ],
+      "ee_orientation_rpy_rad": [
+        2.7428,
+        0.0105,
+        -0.0035
+      ],
+      "joint_angles_rad": [
+        0.0854,
+        0.6556,
+        -0.0769,
+        -2.1328,
+        -0.7842,
+        2.6324,
+        1.5311
+      ],
+      "plane_residuals_m": {
+        "left_outer": -0.00010799776
+      },
+      "plane_residuals_mm": {
+        "left_outer": -0.107997759762
+      }
+    }
+  ],
+  "end_effector_fingertip_translation": {
+    "right_outer_tip_in_ee_m": [
+      0.001002281912,
+      0.052105908168,
+      0.000642129634
+    ],
+    "left_outer_tip_in_ee_m": [
+      0.001002281912,
+      -0.052105908168,
+      0.000642129634
+    ],
+    "right_outer_tip_in_ee_mm": [
+      1.002281911739,
+      52.105908167933,
+      0.642129633774
+    ],
+    "left_outer_tip_in_ee_mm": [
+      1.002281911739,
+      -52.105908167933,
+      0.642129633774
+    ]
+  }
+}
