@@ -188,12 +188,12 @@ v1 keeps the behaviour and the default parameters of the authors' pipeline and d
 If you use AuRA, please cite the paper. The arXiv identifier will be added once it is public.
 
 ```bibtex
-@misc{yu2026aura,
+@article{yu2026aura,
   title  = {{AuRA}: From Atoms to Bits through Autonomous Robot Interaction},
   author = {Yu, Xinchen and Jung, Yoonkyo and Chen, Haoran and Cai, Zikui and
             Talreja, Aayush and Lee, Seungjae and Kim, Hyunjin and Huang, Furong},
-  year   = {2026},
-  note   = {arXiv preprint, to appear}
+  journal={arXiv preprint arXiv:2610.34452},
+  year={2026}
 }
 ```
 
