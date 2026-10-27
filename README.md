@@ -2,7 +2,7 @@
 
 <p align="center">
   🌐 <a href="https://aura-robot.github.io/">Project Page</a> ·
-  📄 Paper (arXiv link coming soon) ·
+  📄 <a href="https://arxiv.org/abs/2610.34452/">Paper</a> ·
   🎬 <a href="https://youtu.be/z5mpP75-XB0">Video</a>
 </p>
 
